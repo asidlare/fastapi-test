@@ -1,45 +1,26 @@
-from sqlalchemy import (
-    BigInteger,
-    Column,
-    Sequence,
-    String,
-    select
-)
-from sqlalchemy.exc import NoResultFound
-from sqlalchemy.ext.asyncio import AsyncSession
+from datetime import date
+from re import match
+from sqlalchemy.dialects.postgresql import DATE
+from sqlalchemy import BIGINT, VARCHAR
+from sqlalchemy.orm import Mapped, mapped_column, validates
+from typing import Optional
 
+from app.models.utils import TimestampMixin
 from app.services.database import Base
 
 
-class User(Base):
+class User(Base, TimestampMixin):
     __tablename__ = "users"
 
-    id = Column(
-        "id",
-        BigInteger,
-        Sequence("user_id_seq", start=1),
-        primary_key=True
-    )
-    email = Column(String, unique=True, nullable=False)
-    first_name = Column(String(length=255), nullable=True)
-    last_name = Column(String(length=255), nullable=True)
+    user_id: Mapped[int] = mapped_column(BIGINT, primary_key=True)
+    email: Mapped[str] = mapped_column(VARCHAR(255), unique=True, nullable=False)
+    first_name: Mapped[Optional[str]] = mapped_column(VARCHAR(255), nullable=True)
+    last_name: Mapped[Optional[str]] = mapped_column(VARCHAR(255), nullable=True)
+    date_of_birth: Mapped[Optional[date]] = mapped_column(DATE, nullable=True)
 
-    @classmethod
-    async def create(cls, db: AsyncSession, **kwargs):
-        transaction = cls(**kwargs)
-        db.add(transaction)
-        await db.commit()
-        await db.refresh(transaction)
-        return transaction
-
-    @classmethod
-    async def get(cls, db: AsyncSession, id: int):
-        try:
-            transaction = await db.get(cls, id)
-        except NoResultFound:
-            return None
-        return transaction
-
-    @classmethod
-    async def get_all(cls, db: AsyncSession):
-        return (await db.execute(select(cls))).scalars().all()
+    @validates("email")
+    def validate_email(self, key: str, address: str) -> str:
+        pattern = r'^[\w\.-]+@[a-zA-Z\d-]+\.[a-zA-Z]{2,}$'
+        if not match(pattern, address):
+            raise ValueError(f"Invalid email address: {address}")
+        return address

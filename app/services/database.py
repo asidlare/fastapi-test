@@ -1,7 +1,7 @@
 import contextlib
 from typing import AsyncIterator
 
-from fastapi import Depends
+from fastapi import Depends  # noqa: F401
 from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
                                     async_sessionmaker, create_async_engine)
 from sqlalchemy.orm import declarative_base
