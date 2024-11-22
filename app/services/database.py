@@ -2,12 +2,19 @@ import contextlib
 from typing import AsyncIterator
 
 from fastapi import Depends  # noqa: F401
-from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
-                                    async_sessionmaker, create_async_engine)
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.asyncio import (
+    AsyncAttrs,
+    AsyncConnection,
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine
+)
+from sqlalchemy.orm import DeclarativeBase
 
 
-Base = declarative_base()
+class Base(AsyncAttrs, DeclarativeBase):
+    pass
 
 
 class DatabaseSessionManager:

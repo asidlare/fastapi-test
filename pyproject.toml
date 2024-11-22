@@ -9,15 +9,16 @@ export = "poetry_plugin_export.plugins:ExportApplicationPlugin"
 
 [tool.poetry.dependencies]
 python = "3.12.7"
+more-itertools = "10.5.0"
 sqlalchemy = {extras = ["asyncio"], version = "2.0.36"}
 uvicorn = {extras = ["standard"], version = "0.32.0"}
 gunicorn = "23.0.0"
 fastapi = {extras = ["all"], version = "0.115.5"}
 pydantic = {extras = ["email"], version = "2.9.2"}
 asyncpg = "0.30.0"
+alembic = "1.14.0"
 
 [tool.poetry.group.dev.dependencies]
-alembic = "1.14.0"
 mypy = "*"
 # test
 pytest = "8.3.3"
