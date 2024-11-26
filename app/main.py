@@ -6,7 +6,7 @@ from app.services.database import databasemanager
 from app.routers_v1 import router_v1
 
 
-def main(init_db=True):
+def init_app(init_db=True):
     lifespan = None
 
     if init_db:
@@ -24,4 +24,4 @@ def main(init_db=True):
     return server
 
 
-my_app = main()
+my_app = init_app()

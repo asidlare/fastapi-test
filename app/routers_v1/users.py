@@ -36,7 +36,7 @@ async def create(
 
 
 @users_router.get(
-    "/get_by_id/{user_id}",
+    "/get-by-id/{user_id}",
     status_code=status.HTTP_200_OK,
     response_model=UserResponse,
     responses={
@@ -58,7 +58,7 @@ async def get_by_id(
 
 
 @users_router.get(
-    "/get_by_email/{email}",
+    "/get-by-email/{email}",
     status_code=status.HTTP_200_OK,
     response_model=UserResponse,
     responses={

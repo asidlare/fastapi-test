@@ -40,6 +40,7 @@ testpaths = "tests"
 python_files = "test_*.py"
 python_functions = "test_*"
 python_classes = "Test* *Tests"
+asyncio_default_fixture_loop_scope = "session"
 asyncio_mode = "auto"
 pythonpath = ["."]
 addopts = [
